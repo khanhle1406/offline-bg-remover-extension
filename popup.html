@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="vi">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="popup.css" />
+    <script src="lib/ort.min.js"></script>
+  </head>
+  <body>
+    <!-- Header -->
+    <div class="header">
+      <div class="header-title">
+        <span>✂️</span>
+        <span>Xóa Nền Ảnh AI</span>
+      </div>
+      <div class="server-status">
+        <div class="status-dot" id="statusDot"></div>
+        <span id="statusText">Đang kiểm tra...</span>
+      </div>
+    </div>
+
+    <!-- Main simplified vertical layout -->
+    <div class="main">
+      <!-- Input: Paste drop zone -->
+      <div class="input-container">
+        <div class="paste-zone" id="pasteZone">
+          <span class="icon">📋</span>
+          <span class="label" id="pasteLabel">Bấm vào đây rồi Ctrl+V dán ảnh</span>
+        </div>
+      </div>
+
+      <!-- Controls row: edit toggle -->
+      <div class="panel-controls">
+        <div class="edit-toggle-row hidden" id="editToggleRow">
+          <label class="toggle-switch">
+            <input type="checkbox" id="editToggle" />
+            <span class="toggle-slider"></span>
+          </label>
+          <span class="toggle-label">✏️ Chỉnh sửa thủ công</span>
+        </div>
+      </div>
+
+      <!-- Editor Toolbar (matches edit mode) -->
+      <div class="editor-toolbar-wrap tb-hidden" id="editorToolbarWrap">
+        <div class="editor-toolbar" id="editorToolbar">
+          <div class="tool-row">
+            <button class="tool-btn active-erase" id="btnErase">🔴 Tẩy</button>
+            <button class="tool-btn" id="btnRestore">🟢 Khôi phục</button>
+            <button class="tool-btn" id="btnShowBg">👁 Nền gốc</button>
+            <button class="btn btn-secondary btn-sm" id="btnEditorReset">↩️ Reset</button>
+          </div>
+          <div class="brush-row">
+            <label>Cọ:</label>
+            <input type="range" id="brushSize" min="5" max="100" value="25" />
+            <span class="brush-val" id="brushVal">25</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Combined Image Frame (Comparison Slider or Canvas Editor) -->
+      <div class="image-frame-container">
+        
+        <!-- Slider Box (Before/After comparison) -->
+        <div class="image-frame result-box hidden" id="resultBox">
+          <div class="empty-result" id="emptyResult">
+            <div class="icon">✂️</div>
+            <div>Kết quả sẽ hiện ở đây</div>
+          </div>
+          
+          <div class="slider-container hidden" id="sliderContainer">
+            <!-- Base Image: Original image (underneath) -->
+            <img id="sliderOriginalImg" class="slider-img" alt="Ảnh gốc" />
+            
+            <!-- Clipped Image: Background removed (top layer) -->
+            <img id="sliderResultImg" class="slider-img" alt="Kết quả" />
+            
+            <!-- Draggable handle -->
+            <div class="slider-handle" id="sliderHandle">
+              <div class="slider-handle-circle">
+                <span>‹</span><span>›</span>
+              </div>
+            </div>
+          </div>
+          
+          <!-- Loading Overlay -->
+          <div class="spinner-overlay hidden" id="spinnerOverlay">
+            <div class="spinner"></div>
+            <div class="spinner-text" id="spinnerText">🔄 Đang xóa nền...</div>
+          </div>
+          
+          <!-- Progress bar at bottom -->
+          <div class="progress-bar hidden" id="progressBar">
+            <div class="progress-fill" id="progressFill"></div>
+          </div>
+        </div>
+
+        <!-- Editor View (Canvas Editor) -->
+        <div class="image-frame editor-wrap hidden" id="editorWrap">
+          <div class="canvas-wrap">
+            <canvas id="editorCanvas"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons & stats -->
+      <div class="panel-footer">
+        <div class="stats hidden" id="stats">
+          <span id="statTime"></span>
+          <span id="statSize"></span>
+          <span id="statDim"></span>
+        </div>
+        <div class="btn-row hidden" id="btnRow">
+          <button class="btn btn-secondary" id="btnDownload">📥 Tải PNG</button>
+          <button class="btn btn-primary" id="btnCopy">📋 Copy Clipboard</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Choice Modal for transparent images -->
+    <div class="modal-overlay hidden" id="choiceModal">
+      <div class="modal-content">
+        <div class="modal-icon">✨</div>
+        <div class="modal-title">Ảnh này đã được xóa nền</div>
+        <div class="modal-body">
+          Bạn muốn vào trình chỉnh sửa ngay hay vẫn muốn gửi lên server để xóa
+          nền lại?
+        </div>
+        <div class="modal-footer-btns">
+          <button class="btn btn-secondary" id="btnChoiceEdit">
+            ✏️ Chỉnh sửa
+          </button>
+          <button class="btn btn-primary" id="btnChoiceRemove">
+            ✂️ Xóa nền lại
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast -->
+    <div class="toast" id="toast"></div>
+
+    <!-- Hidden paste target -->
+    <textarea
+      id="pasteTarget"
+      style="
+        position: absolute;
+        left: -9999px;
+        top: 0;
+        width: 1px;
+        height: 1px;
+        opacity: 0;
+      "
+    ></textarea>
+
+    <script src="popup.js"></script>
+  </body>
+</html>

@@ -1,0 +1,695 @@
+/* ── Reset ── */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ── Body ── */
+body {
+  min-width: 300px;
+  width: 100%;
+  font-family:
+    -apple-system, BlinkMacSystemFont, "Segoe UI", "Inter", sans-serif;
+  background: #111827;
+  color: #e5e7eb;
+  overflow-x: hidden;
+}
+
+/* ── Header ── */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 16px;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  font-weight: 700;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.server-status {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  color: #6b7280;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #ef4444;
+  transition: background 0.3s;
+}
+
+.status-dot.online {
+  background: #22c55e;
+  box-shadow: 0 0 6px rgba(34, 197, 94, 0.5);
+}
+
+/* ══════════════════════════════════════════════
+   Main Layout — Two equal-width columns
+   ══════════════════════════════════════════════ */
+.main {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 0 16px 12px;
+}
+
+.panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.panel-label {
+  color: #9ca3af;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 6px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════════
+   Panel Controls — FIXED height zone at top
+   Both panels share the exact same height so
+   the image frames start on the same line.
+   ══════════════════════════════════════════════ */
+.panel-controls {
+  height: 36px; /* Just enough for toggle / paste label */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  position: relative; /* anchor for absolute children if needed */
+}
+
+/* ── Paste Zone (left panel) ── */
+.paste-zone {
+  width: 100%;
+  padding: 18px 12px;
+  border: 2px dashed rgba(150, 150, 200, 0.25);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.paste-zone:hover,
+.paste-zone.active {
+  border-color: rgba(102, 126, 234, 0.6);
+  background: rgba(102, 126, 234, 0.05);
+}
+
+.paste-zone.active {
+  box-shadow: 0 0 0 2px rgba(102, 126, 234, 0.3);
+}
+
+.paste-zone .icon {
+  font-size: 16px;
+}
+
+.paste-zone .label {
+  color: rgba(160, 160, 200, 0.7);
+  font-size: 11px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════════
+   Image Frame — Shared fixed-height container
+   Used by: preview, result, editor
+   ══════════════════════════════════════════════ */
+.image-frame {
+  height: 300px;
+  width: 100%;
+  border-radius: 12px;
+  overflow: hidden;
+  background: repeating-conic-gradient(#1e1e2e 0% 25%, #252535 0% 50%) 50% /
+    16px 16px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.image-frame img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+/* Specific left preview */
+.image-preview {
+  margin: 0;
+}
+
+.empty-result {
+  color: rgba(160, 160, 200, 0.35);
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.empty-result .icon {
+  font-size: 32px;
+  margin-bottom: 6px;
+}
+
+/* ══════════════════════════════════════════════
+   Editor Toolbar — Sits between controls & frame.
+   ALWAYS occupies its space whether visible or not
+   via visibility:hidden instead of display:none
+   so it never shifts layout.
+   ══════════════════════════════════════════════ */
+.editor-toolbar-wrap {
+  height: 65px; /* Fixed height, fits toolbar + brush slider fully */
+  margin-bottom: 4px;
+  overflow: hidden;
+}
+
+.editor-toolbar-wrap.tb-hidden {
+  visibility: hidden; /* Invisible but still occupies space */
+}
+
+.editor-toolbar {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  width: 100%;
+  padding: 4px 6px;
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tool-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.brush-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.brush-row label {
+  color: #9ca3af;
+  font-size: 10px;
+}
+
+.brush-row input[type="range"] {
+  flex: 1;
+  max-width: 100px;
+  accent-color: #667eea;
+  cursor: pointer;
+}
+
+.brush-val {
+  color: #d1d5db;
+  font-size: 10px;
+  min-width: 18px;
+  text-align: center;
+}
+
+/* ══════════════════════════════════════════════
+   Stats & Buttons Footer
+   ══════════════════════════════════════════════ */
+.panel-footer {
+  min-height: 50px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  margin-top: 8px;
+  gap: 6px;
+}
+
+.stats {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.03);
+}
+
+.stats span {
+  color: #9ca3af;
+  font-size: 10px;
+  font-weight: 500;
+}
+
+.btn-row {
+  display: flex;
+  gap: 8px;
+  width: 100%;
+}
+
+/* ── Buttons ── */
+.btn {
+  flex: 1;
+  padding: 12px 16px;
+  border-radius: 8px;
+  border: none;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+}
+
+.btn:hover {
+  transform: translateY(-1px);
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  box-shadow: 0 2px 8px rgba(102, 126, 234, 0.25);
+}
+
+.btn-primary:hover {
+  box-shadow: 0 4px 14px rgba(102, 126, 234, 0.4);
+}
+
+.btn-secondary {
+  background: rgba(255, 255, 255, 0.06);
+  color: #d1d5db;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.btn-secondary:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.btn-sm {
+  padding: 5px 14px;
+  font-size: 11px;
+  flex: unset;
+}
+
+/* ── Spinner ── */
+.spinner-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(17, 24, 39, 0.85);
+  border-radius: 12px;
+  gap: 10px;
+  z-index: 10;
+}
+
+.spinner {
+  width: 36px;
+  height: 36px;
+  border: 3px solid rgba(102, 126, 234, 0.2);
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.spinner-text {
+  color: #9ca3af;
+  font-size: 12px;
+}
+
+/* ── Progress Bar ── */
+.progress-bar {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 0 0 12px 12px;
+  overflow: hidden;
+  z-index: 11;
+}
+
+.progress-fill {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #667eea, #764ba2, #667eea);
+  background-size: 200% 100%;
+  border-radius: 0 0 12px 12px;
+  transition: width 0.3s ease;
+  animation: progressShimmer 1.5s ease-in-out infinite;
+}
+
+@keyframes progressShimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* ── Toast / Feedback ── */
+.toast {
+  position: fixed;
+  bottom: 12px;
+  left: 50%;
+  transform: translateX(-50%) translateY(60px);
+  background: #22c55e;
+  color: #fff;
+  padding: 8px 20px;
+  border-radius: 8px;
+  font-size: 12px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  z-index: 100;
+}
+
+.toast.show {
+  transform: translateX(-50%) translateY(0);
+}
+
+.toast.error {
+  background: #ef4444;
+}
+
+/* ══════════════════════════════════════════════
+   Edit Toggle
+   ══════════════════════════════════════════════ */
+.edit-toggle-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.toggle-label {
+  font-size: 12px;
+  color: #9ca3af;
+  font-weight: 600;
+}
+
+.toggle-switch {
+  position: relative;
+  width: 36px;
+  height: 20px;
+  display: inline-block;
+}
+
+.toggle-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.toggle-slider {
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.3s;
+}
+
+.toggle-slider::before {
+  content: "";
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  left: 2px;
+  bottom: 2px;
+  background: #9ca3af;
+  border-radius: 50%;
+  transition: all 0.3s;
+}
+
+.toggle-switch input:checked + .toggle-slider {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.toggle-switch input:checked + .toggle-slider::before {
+  transform: translateX(16px);
+  background: #fff;
+}
+
+/* ══════════════════════════════════════════════
+   Editor
+   ══════════════════════════════════════════════ */
+.editor-wrap {
+  display: flex;
+  flex-direction: column;
+  /* height is inherited from .image-frame (300px) — do NOT override */
+}
+
+.canvas-wrap {
+  width: 100%;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.canvas-wrap canvas {
+  max-width: 100%;
+  max-height: 100%;
+  cursor: crosshair;
+}
+
+/* ── Tool Buttons ── */
+.tool-btn {
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 2px solid transparent;
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+  transition: all 0.2s;
+  background: rgba(255, 255, 255, 0.06);
+  color: #ccc;
+}
+
+.tool-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.tool-btn.active-erase {
+  border-color: #ef4444;
+  color: #ef4444;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.tool-btn.active-restore {
+  border-color: #22c55e;
+  color: #22c55e;
+  background: rgba(34, 197, 94, 0.1);
+}
+
+.tool-btn.active-showbg {
+  border-color: #38bdf8;
+  color: #38bdf8;
+  background: rgba(56, 189, 248, 0.1);
+}
+
+/* ══════════════════════════════════════════════
+   Modal Dialog
+   ══════════════════════════════════════════════ */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-content {
+  background: #1f2937;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  width: 100%;
+  text-align: center;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+  animation: modalScale 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes modalScale {
+  from {
+    transform: scale(0.9);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+.modal-icon {
+  font-size: 32px;
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: #fff;
+}
+
+.modal-body {
+  font-size: 13px;
+  color: #9ca3af;
+  line-height: 1.5;
+  margin-bottom: 20px;
+}
+
+.modal-footer-btns {
+  display: flex;
+  gap: 12px;
+}
+
+.modal-footer-btns .btn {
+  flex: 1;
+}
+
+/* ── Utility ── */
+.hidden {
+  display: none !important;
+}
+
+/* ── Server Startup status ── */
+.status-dot.starting {
+  background: #f59e0b;
+  box-shadow: 0 0 6px rgba(245, 158, 11, 0.6);
+  animation: status-pulse 1.5s infinite ease-in-out;
+}
+
+@keyframes status-pulse {
+  0% { opacity: 0.4; }
+  50% { opacity: 1; }
+  100% { opacity: 0.4; }
+}
+
+/* ── Before/After Comparison Slider ── */
+.slider-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  user-select: none;
+  background: repeating-conic-gradient(#1e1e2e 0% 25%, #252535 0% 50%) 50% /
+    16px 16px;
+}
+
+.slider-img {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  pointer-events: none;
+}
+
+#sliderOriginalImg {
+  z-index: 1;
+  clip-path: inset(0 50% 0 0);
+}
+
+#sliderResultImg {
+  z-index: 2;
+  clip-path: inset(0 0 0 50%);
+}
+
+.slider-handle {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  width: 2px;
+  background: rgba(255, 255, 255, 0.4);
+  z-index: 3;
+  cursor: ew-resize;
+  transform: translateX(-50%);
+}
+
+.slider-handle-circle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(17, 24, 39, 0.85);
+  border: 2px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+  transition: border-color 0.2s, transform 0.2s, background-color 0.2s;
+  cursor: ew-resize;
+}
+
+.slider-handle:hover .slider-handle-circle,
+.slider-handle-circle:hover {
+  border-color: rgba(255, 255, 255, 0.9);
+  background: rgba(17, 24, 39, 0.95);
+  transform: translate(-50%, -50%) scale(1.08);
+}
+
+.slider-handle-circle span {
+  color: #ffffff;
+  font-size: 15px;
+  font-weight: 700;
+  user-select: none;
+}
+
+

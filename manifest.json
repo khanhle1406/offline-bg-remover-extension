@@ -1,0 +1,50 @@
+{
+  "manifest_version": 3,
+  "name": "Xóa Nền Ảnh AI",
+  "description": "Xóa nền ảnh bằng AI (u2net) — paste ảnh, xóa nền tức thì (chạy offline 100%)",
+  "version": "2.1.0",
+  "action": {
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "48": "icons/icon48.png",
+      "128": "icons/icon128.png"
+    }
+  },
+  "icons": {
+    "16": "icons/icon16.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "activeTab",
+    "storage",
+    "contextMenus",
+    "sidePanel"
+  ],
+  "host_permissions": [
+    "<all_urls>"
+  ],
+  "side_panel": {
+    "default_path": "popup.html"
+  },
+  "content_security_policy": {
+    "extension_pages": "script-src 'self' 'wasm-unsafe-eval'; object-src 'self'"
+  },
+  "web_accessible_resources": [
+    {
+      "resources": [
+        "lib/ort-wasm.wasm",
+        "lib/ort-wasm-simd.wasm",
+        "lib/ort-wasm-threaded.wasm",
+        "lib/ort-wasm-simd-threaded.wasm",
+        "u2netp.onnx"
+      ],
+      "matches": [
+        "<all_urls>"
+      ]
+    }
+  ]
+}
