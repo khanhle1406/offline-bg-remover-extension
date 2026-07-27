@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
-  "name": "AI Offline Background Remover",
-  "description": "Remove image backgrounds with AI (u2net) — paste images for instant offline background removal (100% client-side)",
+  "name": "Xóa Nền Ảnh AI",
+  "description": "Xóa nền ảnh bằng AI (u2net) — paste ảnh, xóa nền tức thì (chạy offline 100%)",
   "version": "2.1.0",
   "action": {
     "default_icon": {
