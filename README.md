@@ -1,81 +1,81 @@
-# Offline AI Background Remover - Chrome Extension (Manifest V3)
+# AI Offline Background Remover - Chrome Extension (Manifest V3)
 
-![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue?style=flat-square)
-![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?style=flat-square)
-![ONNX Runtime Web](https://img.shields.io/badge/ONNX_Runtime_Web-WASM-orange?style=flat-square)
-![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)
+[![Manifest V3](https://img.shields.io/badge/Manifest-V3-blue?style=flat-square)](https://developer.chrome.com/docs/extensions/mv3/intro/)
+[![JavaScript](https://img.shields.io/badge/JavaScript-ES6+-yellow?style=flat-square)](https://developer.mozilla.org/en-US/docs/Web/JavaScript)
+[![ONNX Runtime Web](https://img.shields.io/badge/ONNX_Runtime_Web-WASM-orange?style=flat-square)](https://onnxruntime.ai/docs/tutorials/web/)
+[![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 
-Một Chrome Extension hiện đại, hỗ trợ **xóa nền ảnh tự động 100% Offline** (Client-side) sử dụng mô hình Deep Learning **U-2-Net (u2netp)** kết hợp với **ONNX Runtime Web & WebAssembly (WASM)**. 
+A modern Chrome Extension that performs **100% Offline Client-Side Automatic Background Removal** using the Deep Learning **U-2-Net (`u2netp`)** model, powered by **ONNX Runtime Web & WebAssembly (WASM)**.
 
-Không gửi ảnh lên bất kỳ server trung gian nào — đảm bảo tốc độ phản hồi tức thì, bảo mật dữ liệu tuyệt đối và hoạt động hoàn toàn ngay cả khi không có kết nối Internet.
-
----
-
-## 🌟 Tính Năng Nổi Bật
-
-- 🔒 **100% Privacy-First & Offline**: Toàn bộ quá trình tách nền diễn ra ngay trên trình duyệt của người dùng (Client-Side Inferences).
-- 🚀 **Hiệu năng cao với WebAssembly (WASM)**: Sử dụng ONNX Runtime Web kết hợp WASM để chạy mô hình AI với hiệu suất tối ưu.
-- 🎨 **Giao diện hiện đại & Linh hoạt**:
-  - Hỗ trợ xem trước ảnh gốc và ảnh sau khi xóa nền (Chế độ so sánh Trước/Sau).
-  - Tích hợp công cụ chỉnh sửa màu nền: Nền trong suốt (PNG), màu đơn sắc, hoặc các gradient màu mắt mắt.
-  - Tải xuống ảnh kết quả chất lượng cao chỉ với 1-click.
-- ⚡ **Tích hợp tiện lợi trên Chrome**:
-  - Hỗ trợ **Paste (Dán) ảnh trực tiếp** từ clipboard (`Ctrl+V` / `Cmd+V`).
-  - Drag & Drop (Kéo thả) file ảnh vào giao diện.
-  - Hỗ trợ **Side Panel** & Popup tiện lợi.
+Zero server uploads — ensuring instant execution speed, absolute data privacy, and full functionality even without an internet connection.
 
 ---
 
-## 🛠️ Công Nghệ Sử Dụng (Tech Stack)
+## 🌟 Key Features
 
-- **Frontend Core**: HTML5, Vanilla CSS3 (Custom Design System, Glassmorphism UI), Modern JavaScript (ES6+ async/await, Canvas API).
-- **AI / Machine Learning**: 
-  - Model: `u2netp` (Phiên bản nhẹ, tối ưu hóa cho ứng dụng Web/Edge devices).
-  - Inference Engine: `ONNX Runtime Web` (WebAssembly backend support).
-- **Extension Platform**: Chrome Extension Manifest V3 (Service Worker background script, Side Panel API, Context Menu API).
+- 🔒 **100% Privacy-First & Offline**: All inference processing happens directly within the user's browser (Client-Side Inferences).
+- 🚀 **High Performance via WebAssembly (WASM)**: Utilizes ONNX Runtime Web compiled with WASM for optimal AI model execution.
+- 🎨 **Modern & Flexible UI/UX**:
+  - Interactive Before/After comparison mode.
+  - Built-in background customizer: Transparent (PNG), solid colors, or vibrant color gradients.
+  - 1-Click high-resolution image export.
+- ⚡ **Seamless Chrome Integration**:
+  - Supports direct **Clipboard Image Paste** (`Ctrl+V` / `Cmd+V`).
+  - Drag & Drop image file upload.
+  - Integrated Chrome **Side Panel** & Popup view options.
 
 ---
 
-## 🚀 Hướng Dẫn Cài Đặt & Sử Dụng (Dành Cho Developer / Nhà Tuyển Dụng)
+## 🛠️ Tech Stack
 
-### 1. Clone repository về máy
+- **Frontend Core**: Vanilla HTML5, CSS3 (Custom Design System, Glassmorphism UI), Modern JavaScript (ES6+ async/await, Canvas API).
+- **AI / Machine Learning Engine**: 
+  - Model: Lightweight `u2netp` (Quantized & optimized for Web/Edge device execution).
+  - Inference Engine: `ONNX Runtime Web` with WebAssembly (WASM) execution provider.
+- **Extension Architecture**: Chrome Extension Manifest V3 (Service Worker background process, Side Panel API, Context Menu API).
+
+---
+
+## 🚀 Installation & Usage Guide
+
+### 1. Clone the repository
 
 ```bash
 git clone https://github.com/khanhle1406/offline-bg-remover-extension.git
 cd offline-bg-remover-extension
 ```
 
-### 2. Cài đặt vào Google Chrome
+### 2. Load into Google Chrome
 
-1. Mở trình duyệt Chrome và truy cập đường dẫn: `chrome://extensions/`
-2. Bật chế độ **Developer mode** (Chế độ dành cho nhà phát triển) ở góc trên bên phải.
-3. Nhấp vào nút **Load unpacked** (Tải tiện ích đã giải nén).
-4. Chọn thư mục dự án `offline-bg-remover-extension` vừa clone về.
-5. Ghim (Pin) tiện ích lên thanh công cụ của Chrome và bắt đầu trải nghiệm!
+1. Open Google Chrome and navigate to `chrome://extensions/`.
+2. Enable **Developer mode** in the top right corner.
+3. Click **Load unpacked**.
+4. Select the `offline-bg-remover-extension` directory.
+5. Pin the extension to your Chrome toolbar and start removing image backgrounds!
 
 ---
 
-## 📸 Cấu Trúc Dự Án (Project Structure)
+## 📸 Project Directory Structure
 
 ```text
 offline-bg-remover-extension/
-├── manifest.json          # Cấu hình Chrome Extension (Manifest V3)
-├── background.js         # Service Worker quản lý sự kiện background
-├── popup.html            # Giao diện chính của tiện ích
-├── popup.css             # Styling giao diện (Custom CSS / Layout / Themes)
-├── popup.js              # Logic ứng dụng, xử lý Canvas & ONNX Model Inference
-├── u2netp.onnx           # Model AI u2netp đã qua tối ưu hóa
-├── lib/                  # Thư viện ONNX Runtime Web & file WASM binaries
+├── manifest.json          # Chrome Extension configuration (Manifest V3)
+├── background.js         # Service worker handling background events
+├── popup.html            # Extension user interface markup
+├── popup.css             # Styling rules (Custom CSS / Layouts / Glassmorphism)
+├── popup.js              # Application logic, Canvas operations & ONNX Model Inference
+├── u2netp.onnx           # Optimized U-2-Net AI model weights
+├── lib/                  # ONNX Runtime Web library & WebAssembly binary dependencies
 │   ├── ort.min.js
 │   ├── ort-wasm.wasm
 │   ├── ort-wasm-simd.wasm
 │   └── ...
-├── icons/                # Icons ứng dụng với nhiều kích thước khác nhau
-└── README.md             # Tài liệu dự án
+├── icons/                # Extension icons across multiple resolutions
+└── README.md             # Project documentation
 ```
 
 ---
 
 ## 📜 License
 
-Dự án được phát hành dưới mã nguồn mở [MIT License](LICENSE).
+This project is open-source under the [MIT License](LICENSE).
